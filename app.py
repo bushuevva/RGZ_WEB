@@ -72,15 +72,24 @@ def employees():
     conn, cur = db_connect()
 
     # Поиск и сортировка
-    query = """
-        SELECT * FROM employees
-        WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
-    """
+    if current_app.config['DB_TYPE'] == 'postgres':
+        query = """
+            SELECT * FROM employees
+            WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
+        """
+    else:
+        query = """
+            SELECT * FROM employees
+            WHERE (name LIKE ? OR position LIKE ? OR phone LIKE ? OR email LIKE ?)
+        """
     params = [f'%{search}%', f'%{search}%', f'%{search}%', f'%{search}%']
 
     # Условие для поиска по полу
     if gender:
-        query += " AND gender = %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            query += " AND gender = %s"
+        else:
+            query += " AND gender = ?"
         params.append(gender)
 
     # Условие для поиска по испытательному сроку
@@ -90,24 +99,39 @@ def employees():
         query += " AND probation = FALSE"
 
     # Сортировка и пагинация
-    query += """
-        ORDER BY {} {}
-        LIMIT 20 OFFSET %s
-    """.format(sort_by, order)
+    if current_app.config['DB_TYPE'] == 'postgres':
+        query += """
+            ORDER BY {} {}
+            LIMIT 20 OFFSET %s
+        """.format(sort_by, order)
+    else:
+        query += """
+            ORDER BY {} {}
+            LIMIT 20 OFFSET ?
+        """.format(sort_by, order)
     params.append((page - 1) * 20)
 
     cur.execute(query, params)
-    employees = cur.fetchall()
+    employees = cur.fetchall() 
 
     # Получение общего количества сотрудников для пагинации
-    count_query = """
-        SELECT COUNT(*) FROM employees
-        WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
-    """
+    if current_app.config['DB_TYPE'] == 'postgres':
+        count_query = """
+            SELECT COUNT(*) FROM employees
+            WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
+        """
+    else:
+        count_query = """
+            SELECT COUNT(*) FROM employees
+            WHERE (name LIKE ? OR position LIKE ? OR phone LIKE ? OR email LIKE ?)
+        """
     count_params = [f'%{search}%', f'%{search}%', f'%{search}%', f'%{search}%']
-
+ 
     if gender:
-        count_query += " AND gender = %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            count_query += " AND gender = %s"
+        else:
+            count_query += " AND gender = ?"
         count_params.append(gender)
 
     if probation == 'true':
