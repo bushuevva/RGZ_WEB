@@ -74,7 +74,7 @@ def employees():
     # Поиск и сортировка
     query = """
         SELECT * FROM employees
-        WHERE (name ILIKE %s OR position ILIKE %s OR phone ILIKE %s OR email ILIKE %s)
+        WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
     """
     params = [f'%{search}%', f'%{search}%', f'%{search}%', f'%{search}%']
 
@@ -102,7 +102,7 @@ def employees():
     # Получение общего количества сотрудников для пагинации
     count_query = """
         SELECT COUNT(*) FROM employees
-        WHERE (name ILIKE %s OR position ILIKE %s OR phone ILIKE %s OR email ILIKE %s)
+        WHERE (name LIKE %s OR position LIKE %s OR phone LIKE %s OR email LIKE %s)
     """
     count_params = [f'%{search}%', f'%{search}%', f'%{search}%', f'%{search}%']
 
