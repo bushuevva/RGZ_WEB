@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>Список сотрудников</h2>
+
+<form method="get" action="{{ url_for('employees') }}" class="search-form">
+    <!-- Поисковая строка -->
+    <input type="text" name="search" placeholder="Поиск..." value="{{ search }}" class="search-input">
+
+    <!-- Поиск по полу -->
+    <div class="checkbox-group">
+        <label>
+            <input type="checkbox" name="gender" value="Мужской" {% if gender == 'Мужской' %}checked{% endif %}> Мужской
+        </label>
+        <label>
+            <input type="checkbox" name="gender" value="Женский" {% if gender == 'Женский' %}checked{% endif %}> Женский
+        </label>
+    </div>
+
+    <!-- Поиск по испытательному сроку -->
+    <div class="checkbox-group">
+        <label>
+            <input type="checkbox" name="probation" value="true" {% if probation == 'true' %}checked{% endif %}> На испытательном сроке
+        </label>
+        <label>
+            <input type="checkbox" name="probation" value="false" {% if probation == 'false' %}checked{% endif %}> Не на испытательном сроке
+        </label>
+    </div>
+
+    <!-- Кнопка "Сортировать по..." -->
+    <div class="sort-group">
+        <label for="sort_by">Сортировать по:</label>
+        <select name="sort_by" id="sort_by">
+            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>ФИО</option>
+            <option value="position" {% if sort_by == 'position' %}selected{% endif %}>Должность</option>
+            <option value="hire_date" {% if sort_by == 'hire_date' %}selected{% endif %}>Дата устройства</option>
+        </select>
+        <select name="order" id="order">
+            <option value="asc" {% if order == 'asc' %}selected{% endif %}>По возрастанию</option>
+            <option value="desc" {% if order == 'desc' %}selected{% endif %}>По убыванию</option>
+        </select>
+    </div>
+
+    <!-- Кнопки "Найти" и "Очистить фильтр" -->
+    <div class="buttons">
+        <button type="submit">Найти</button>
+        <a href="{{ url_for('employees') }}" class="clear-filter">Очистить фильтр</a>
+    </div>
+</form>
+
+{% if logged_in %}
+    <a href="{{ url_for('add_employee') }}">Добавить сотрудника</a>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th><a href="?sort_by=name&order={{ 'desc' if order == 'asc' else 'asc' }}">ФИО</a></th>
+            <th><a href="?sort_by=position&order={{ 'desc' if order == 'asc' else 'asc' }}">Должность</a></th>
+            <th><a href="?sort_by=gender&order={{ 'desc' if order == 'asc' else 'asc' }}">Пол</a></th>
+            <th><a href="?sort_by=phone&order={{ 'desc' if order == 'asc' else 'asc' }}">Телефон</a></th>
+            <th><a href="?sort_by=email&order={{ 'desc' if order == 'asc' else 'asc' }}">Email</a></th>
+            <th><a href="?sort_by=probation&order={{ 'desc' if order == 'asc' else 'asc' }}">Испытательный срок</a></th>
+            <th><a href="?sort_by=hire_date&order={{ 'desc' if order == 'asc' else 'asc' }}">Дата устройства</a></th>
+            {% if logged_in %}
+                <th>Действия</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.position }}</td>
+            <td>{{ employee.gender }}</td>
+            <td>{{ employee.phone }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ 'Да' if employee.probation else 'Нет' }}</td>
+            <td>{{ employee.hire_date }}</td>
+            {% if logged_in %}
+                <td>
+                    <a href="{{ url_for('edit_employee', id=employee.id) }}">Редактировать</a>
+                    <a href="{{ url_for('delete_employee', id=employee.id) }}">Удалить</a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="?page={{ page - 1 if page > 1 else 1 }}">Предыдущая</a>
+<a href="?page={{ page + 1 if page < total_pages else total_pages }}">Следующая</a>
+
+{% endblock %}

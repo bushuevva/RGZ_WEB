@@ -1,0 +1,202 @@
+/* Основные стили для страницы */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: aliceblue;
+    color: #003366;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Стили для заголовков */
+h1, h2 {
+    color: #194570;
+    text-align: center;
+}
+
+/* Стили для ссылок */
+a {
+    color: #194570;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0e263e;
+}
+
+/* Стили для кнопок */
+button, input[type="submit"] {
+    background-color: #004080; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #0055aa;
+}
+
+/* Стили для форм */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="date"],
+form select {
+    width: 300px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #0077cc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Стили для таблиц */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #3b617c;
+    text-align: center;
+}
+table th a{
+    color: white;
+
+}
+
+table tr:hover {
+    background-color: #f0f8ff;
+}
+
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #0077cc;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #004080;
+}
+
+/* Стили для шапки */
+header {
+    width: 100%;
+    background-color: #004080;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header a {
+    color: white;
+    margin: 0 10px;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для футера */
+footer {
+    width: 100%;
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+/* Стили для формы поиска */
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.search-options, .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.search-options label, .checkbox-group label {
+    margin-right: 10px;
+}
+
+.buttons {
+    margin-top: 10px;
+}
+
+.buttons button, .buttons .clear-filter {
+    margin-left: 10px;
+}
+
+.clear-filter {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #004080;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.clear-filter:hover {
+    background-color: #0055aa;
+    color: white;
+}

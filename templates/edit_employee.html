@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>{{ 'Редактирование сотрудника' if action == 'edit' else 'Добавление сотрудника' }}</h2>
+
+<form method="post">
+    <label for="name">ФИО:</label>
+    <input type="text" id="name" name="name" value="{{ employee.name if employee else '' }}" required><br>
+
+    <label for="position">Должность:</label>
+    <input type="text" id="position" name="position" value="{{ employee.position if employee else '' }}" required><br>
+
+    <label for="gender">Пол:</label>
+    <select id="gender" name="gender" required>
+        <option value="Мужской" {% if employee and employee.gender == 'Мужской' %}selected{% endif %}>Мужской</option>
+        <option value="Женский" {% if employee and employee.gender == 'Женский' %}selected{% endif %}>Женский</option>
+    </select><br>
+
+    <label for="phone">Телефон:</label>
+    <input type="text" id="phone" name="phone" value="{{ employee.phone if employee else '' }}" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ employee.email if employee else '' }}" required><br>
+
+    <label for="probation">На испытательном сроке:</label>
+    <input type="checkbox" id="probation" name="probation" {% if employee and employee.probation %}checked{% endif %}><br>
+
+    <label for="hire_date">Дата устройства:</label>
+    <input type="date" id="hire_date" name="hire_date" value="{{ employee.hire_date if employee else '' }}" required><br>
+
+    <button type="submit">{{ 'Сохранить' if action == 'edit' else 'Добавить' }}</button>
+</form>
+
+<a href="{{ url_for('employees') }}">Назад к списку сотрудников</a>
+{% endblock %}
