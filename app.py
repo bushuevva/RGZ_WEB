@@ -38,7 +38,7 @@ def db_close(conn, cur):
 # Главная страница
 @app.route('/')
 def main():
-    return redirect(url_for('employees'))
+    return render_template('main.html')
 
 # Страница входа
 @app.route('/login', methods=['GET', 'POST'])
